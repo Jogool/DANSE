@@ -1,8 +1,8 @@
 function [node] = DANSE(node,node_update)
-global nb_nodes dim_DANSE
 
 [node.cost_DANSE] = deal(0);
-
+nb_nodes = size(node,2);
+dim_DANSE = node(1).dimDANSE;
 % generate broadcast signals
 for ii = 1:nb_nodes
     idx = find(ii ~= 1:nb_nodes);
@@ -10,7 +10,7 @@ for ii = 1:nb_nodes
     node(ii).loc_zn = (node(ii).loc_filt_coeff'*node(ii).ss_noise')';
 end
     % update external filter coefficients at root node
-    node = node_filt_update(node,node_update);
+    node = DANSE_filt_update(node,node_update);
     
     %%  Calculate cost at each node
     for ii=1:nb_nodes
@@ -27,25 +27,4 @@ end
         node(ii).cost(1) = norm(node(ii).ss_clean(:,1:dim_DANSE)' - ...
         temp_filt*([node(ii).ss_clean z_x_seq]+[node(ii).ss_noise z_n_seq])')^2;
     end
-end
-
-%% update filter coefficents of node
-function [node] = node_filt_update(node,ii)
-global nb_nodes dim_DANSE
-idx = find(ii ~= 1:nb_nodes);
-z_x_seq = [node(idx).loc_zx];
-z_n_seq = [node(idx).loc_zn];
-
-
-Rxx = [node(ii).ss_clean z_x_seq]'*[node(ii).ss_clean z_x_seq];
-Rnn = [node(ii).ss_noise z_n_seq]'*[node(ii).ss_noise z_n_seq];
-
-w_temp  = (Rnn+Rxx) \ Rxx(:,1:dim_DANSE);       % update node-specific filter
-node(ii).loc_filt_coeff = w_temp(1:node(ii).sensors,:);
-gkq_seq_temp = w_temp(node(ii).sensors+1:end,:);
-
-for jj = 1:numel(idx);
-    node(ii).gkq(idx(jj)).coeff =  gkq_seq_temp((jj-1)*dim_DANSE+1:jj*dim_DANSE,:);
-end
-
 end
