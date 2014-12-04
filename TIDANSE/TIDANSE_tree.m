@@ -25,10 +25,9 @@ function [node] = TIDANSE_tree(node,node_update)
 % Author: Joseph Szurley
 % email: joseph.szurley@esat.kuleuven.be
 % Aug. 2014; Last  revision: 13-Oct-2014
-global nb_nodes dim_DANSE
 
-length_of_signal = size(node(1).ss_clean,1);
-
+nb_nodes = size(node,2);
+dim_DANSE = node(1).dimDANSE;
 [node.cost] = deal(0);
 
 for ii = 1:nb_nodes
@@ -36,7 +35,7 @@ for ii = 1:nb_nodes
     node(ii).loc_zn = (node(ii).P'*node(ii).ss_noise')';
 end
 
-node = rooted_ff(node,node_update);
+node = TIDANSE_rooted_ff(node,node_update);
 %% Contstruct summed signal at root and flood signal through WSN
 idx = node(node_update).ff_rec;
 z_x_seq = [node(idx).ff_zx];
@@ -53,7 +52,7 @@ for ii = 1:nb_nodes
 end
 
 % update node-specific filter coefficients at updated node
-node = node_filt_update_TIDANSE(node,node_update);
+node = TIDANSE_filt_update(node,node_update);
 %%  Calculate cost at each node
 for ii=1:nb_nodes
     z_x_seq = node(ii).zx_sum - node(ii).loc_zx;
