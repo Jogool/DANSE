@@ -47,14 +47,29 @@
         <ul>
           <li><strong>DANSE</strong></li>
 	      <ul>
-	          <li>DANSE.m - Ge </li>
-	          <li>Sub List #B</li>
+	          <li>DANSE.m - Generates broadcast signal, calls filter update sub function, and calculates cost</li>
+	          <li>DANSE_filt_update.m - Updates node-specific filter</li>
 	        </ul>
-          <li><a href="https://github.com/Jogool/DANSE/tarball/master">Download <strong>TAR Ball</strong></a></li>
-          <li><a href="https://github.com/Jogool/DANSE">View On <strong>GitHub</strong></a></li>
+         <li><strong>TDANSE</strong></li>
+      <ul>
+          <li>TDANSE.m - Generates broadcast signal, calls fusion and diffusion flow sub-functions, calls filter update sub-function, and calculates cost</li>
+		   <li>TDANSE_rooted_ff.m - Fusion flow (data aggregation)</li>
+		   <li>TDANSE_rooted_df.m - Diffusion flow (data dissemination)</li>
+          <li>TDANSE_filt_update.m - Updates node-specific filter</li>
         </ul>
+           <li><strong>TIDANSE (fully connected)</strong></li>
+        <ul>
+            <li>TIDANSE_fc.m - Generates broadcast signal, calls filter update sub-function, and calculates cost</li>
+            <li>TDANSE_filt_update.m - Updates node-specific filter</li>
+          </ul>
+             <li><strong>TIDANSE (in a tree topology)</strong></li>
+          <ul>
+              <li>TIDANSE_tree.m - Generates broadcast signal, calls fusion flow sub-functions, calls filter update sub-function, and calculates cost</li>
+   		   <li>TIDANSE_rooted_ff.m - Fusion flow (data aggregation)</li>
+              <li>TDANSE_filt_update.m - Updates node-specific filter</li>
+            </ul>
 
-<h3>
+<!--<h3>
 <a id="rather-drive-stick" class="anchor" href="#rather-drive-stick" aria-hidden="true"><span class="octicon octicon-link"></span></a>Rather Drive Stick?</h3>
 
 <p>If you prefer to not use the automatic generator, push a branch named <code>gh-pages</code> to your repository to create a page manually. In addition to supporting regular HTML content, GitHub Pages support Jekyll, a simple, blog aware static site generator written by our own Tom Preston-Werner. Jekyll makes it easy to create site-wide headers and footers without having to copy them across every page. It also offers intelligent blog support and other advanced templating features.</p>
@@ -75,6 +90,6 @@
       </footer>
     </div>
     <script src="javascripts/scale.fix.js"></script>
-    
+    -->
   </body>
 </html>
