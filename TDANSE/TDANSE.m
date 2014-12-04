@@ -13,7 +13,7 @@ function [node] = TDANSE(node,node_update)
 %                       optimal filters
 %
 % Example:
-%    [node] = t_DANSE_seq(node,n)
+%    [node] = TDANSE(node,n)
 %
 % Other m-files required: none
 % Subfunctions: node

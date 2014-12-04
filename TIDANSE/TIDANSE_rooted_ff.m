@@ -1,7 +1,8 @@
 function [node] = rooted_ff(node,root)
 % given a sink (root) node and pre-existing tree, find the data flow toward the
 % sink (root) node
-global nb_nodes dim_DANSE
+nb_nodes = size(node,2);
+dim_DANSE = node(1).dimDANSE;
 
 [node.ff_trans] = deal([]);   % node k transmits to this node during the ff (should always be a single node)
 [node.ff_rec] = deal([]);     % node k receives these signals during the ff
@@ -9,13 +10,13 @@ global nb_nodes dim_DANSE
 
 % if node only has one connection and is not the root node, then it can 
 % immediately transmit its fusion flow signal
-for ii = find(cellfun(@(x) numel(x), {node.tree_connections}) == 1)
+for ii = find(cellfun(@(x) numel(x), {node.tree_conn}) == 1)
     if ~eq(ii,root)
         % which node the current node transmits to during the ff
-        node(ii).ff_trans = node(ii).tree_connections;
+        node(ii).ff_trans = node(ii).tree_conn;
         % the node that receives the ff from the node
-        node(node(ii).tree_connections).ff_rec = ...
-            sort([node(node(ii).tree_connections).ff_rec ii]);
+        node(node(ii).tree_conn).ff_rec = ...
+            sort([node(node(ii).tree_conn).ff_rec ii]);
         
         % update ff signal
         node(ii).ff_zx = node(ii).loc_zx;
@@ -35,17 +36,17 @@ while lt(node_ff_update,nb_nodes-1) % can skip the root node, hence - 1
     for ii = ff_idx'
 
         % find neighbors of node who have already transmitted a ff signal
-        idx = find([node(node(ii).tree_connections).ff_update]);
-        nbrs_updated = node(ii).tree_connections(idx);
+        idx = find([node(node(ii).tree_conn).ff_update]);
+        nbrs_updated = node(ii).tree_conn(idx);
         nb_nbrs_updated = numel(nbrs_updated);
         
         % find neighbors who have not performed a fusion flow update
-        idx = find(~[node(node(ii).tree_connections).ff_update]);
-        non_update_neighbors = node(ii).tree_connections(idx);
+        idx = find(~[node(node(ii).tree_conn).ff_update]);
+        non_update_neighbors = node(ii).tree_conn(idx);
         
         % if all neighbors except 1 have performed a fusion flow
         % update, the node can generate its fusion flow signal
-        if eq(nb_nbrs_updated,numel(node(ii).tree_connections)-1)    
+        if eq(nb_nbrs_updated,numel(node(ii).tree_conn)-1)    
             
             % place node in sorted list of received ff signals of
             % non-updated node
