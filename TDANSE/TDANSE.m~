@@ -32,7 +32,7 @@ for ii = 1:nb_nodes
 end
 
 node = TDANSE_rooted_ff(node,node_update);
-node = TDANSE_rooted_df(node,node_update);
+node = rooted_df(node,node_update);
 node = TDANSE_filt_update(node,node_update);
 
 %  Calculate cost at each node

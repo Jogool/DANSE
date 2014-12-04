@@ -1,7 +1,8 @@
-function [node] = rooted_df(node,ii)
+function [node] = TDANSE_rooted_df(node,ii)
 % given a sink (root) node and pre-existing tree, find the data flow away 
 % from the root node
-global dim_DANSE
+nb_nodes = size(node,2);
+dim_DANSE = node(1).dimDANSE;
 
 for jj = node(ii).ff_rec
     idx = node(ii).ff_rec;
@@ -42,6 +43,6 @@ for jj = node(ii).ff_rec
     
     end
     
-    node = rooted_df(node,jj);
+    node = TDANSE_rooted_df(node,jj);
     
 end
