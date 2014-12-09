@@ -32,20 +32,21 @@ function [node,source,noise,white_noise_var] = network_gen(DANSE_param)
 % hardcoded parameters
 length_of_signal = 10000;       % length or source signals
 r_sen = 0.1;                    % sensor distance from center of node (equispaced) now 10 centimeters
+env_size = 5;                   % sensing environment size 
 circ_pos = linspace(0,2*pi,DANSE_param.sensors+1); % position of sensors around node
 node(DANSE_param.nb_nodes) = struct;
 [node.dimDANSE] = deal(DANSE_param.desired_sources);
 % generate sources at random locations 
 for ii = 1:DANSE_param.desired_sources
     source(ii).nb = ii;                     % source number
-    source(ii).pos  = 5*rand(2,1);          % source position (assuming 5x5 room)
+    source(ii).pos  = env_size*rand(2,1);          % source position (assuming 5x5 room)
     source(ii).signal = -0.5+rand(length_of_signal,1);  % source signal   
 end
 
 % generate noise sources at random locations
 for ii = 1:DANSE_param.noise_sources
     noise(ii).nb = ii;                      % noise source number
-    noise(ii).pos  = 5*rand(2,1);           % noise source position (assuming 5x5 room)
+    noise(ii).pos  = env_size*rand(2,1);           % noise source position (assuming 5x5 room)
     noise(ii).signal = -0.5+rand(length_of_signal,1);   % noise signal
 end
 
@@ -57,7 +58,7 @@ for ii = 1:DANSE_param.nb_nodes
     node(ii).sensors = DANSE_param.sensors;             % number of sensors on node
     node(ii).ss_clean = zeros(length_of_signal,node(ii).sensors); % pre-allocate clean source signals
     node(ii).ss_noise = zeros(length_of_signal,node(ii).sensors); % pre-allocate additive noise signals
-    node(ii).pos = 5*rand(2,1);                         % node position (assuming 5x5 room)
+    node(ii).pos = env_size*rand(2,1);                         % node position (assuming 5x5 room)
     
     for jj = 1:node(ii).sensors
         node(ii).sensor(jj).pos(1) = node(ii).pos(1)+r_sen*cos(circ_pos(jj));   % x-axis sensor position on node
