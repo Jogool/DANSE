@@ -26,18 +26,29 @@
           <li><a href="https://github.com/Jogool/DANSE/tarball/master">Download <strong>TAR Ball</strong></a></li>
           <li><a href="https://github.com/Jogool/DANSE">View On <strong>GitHub</strong></a></li>
         </ul>
+        <h1>Clique based DANSE</h1>
+        <p>Code for the DANSE algorithm in heterogeneous or mixed-topology networks</p>
+
+        <p class="view"><a href="https://github.com/Jogool/Clique_based_DANSE">View the Project on GitHub <small>Jogool/Clique_based_DANSE</small></a></p>
+
+
+        <ul>
+          <li><a href="https://github.com/Jogool/Clique_based_DANSE/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/Jogool/Clique_based_DANSE/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/Jogool/Clique_based_DANSE">View On <strong>GitHub</strong></a></li>
+        </ul>
       </header>
       <section>
         <h3>
 <a id="welcome-to-github-pages" class="anchor" href="#welcome-to-github-pages" aria-hidden="true"><span class="octicon octicon-link"></span></a>Welcome</h3>
 
-<p>This site contains code to run the DANSE algorithm (3 different implementations) in the MATLAB environment.  In order to initially run the code, just download the the files via the links on the left.  Once downloaded and unpacked, simply run the following commands : </p>
+<p>This site contains code to run the DANSE algorithm in the MATLAB environment.  In order to initially run the code, just download the the files via the links on the left.  Once downloaded and unpacked, simply run the following commands : </p>
 
 <pre><code>>> addpath(genpath(pwd))
 >> batch_run
 </code></pre>
 
-<p>and you're off.</p>
+<p>where the hardcoded parameters are 2 desired sources, 4 correlated noise sources and 10 nodes.</p>	
 
 <h3>
 <a id="designer-templates" class="anchor" href="#designer-templates" aria-hidden="true"><span class="octicon octicon-link"></span></a>Main Algorithms</h3>
@@ -68,6 +79,24 @@
    		   <li>TIDANSE_rooted_ff.m - Fusion flow (data aggregation)</li>
               <li>TDANSE_filt_update.m - Updates node-specific filter</li>
             </ul>
+			  </ul>
+			
+<h3>
+			<a id="designer-templates" class="anchor" href="#designer-templates" aria-hidden="true"><span class="octicon octicon-link"></span></a>Clique based</h3>
+			<p>For mixed topologies there are small differences on the way cliques are formed (currently based on distance).  Therefore the network generation, tree formation and updating order have some exceptions when compared to TDANSE.  However, in the clique based code, the DANSE and TDANSE files are exactly the same as in the the DANSE code given previously.  Running the code is accomplished in the same fashion, i.e., </p>
+			
+<pre><code>>> addpath(genpath(pwd))
+>> batch_run_clq
+</code></pre>
+<p> where the hardcoded parameters are 2 desired sources, 4 correlated noise sources, 3 cliques consisting of 3 nodes each and two non-clique nodes where each node has 3 sensors.</p>			
+	          <ul>
+	            <li><strong>Clique based</strong></li>
+		      <ul>
+		          <li>MTDANSE.m - Generates broadcast signal, calls fusion and diffusion flow sub-functions, calls filter update sub-function, and calculates cost</li>
+				   <li>MTDANSE_rooted_ff.m - Fusion flow (data aggregation)</li>
+				   <li>MTDANSE_rooted_df.m - Diffusion flow (data dissemination)</li>
+		          <li>MTDANSE_filt_update.m - Updates node-specific filter</li>
+		        </ul>
 
 <!--<h3>
 <a id="rather-drive-stick" class="anchor" href="#rather-drive-stick" aria-hidden="true"><span class="octicon octicon-link"></span></a>Rather Drive Stick?</h3>
