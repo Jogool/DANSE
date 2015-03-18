@@ -19,11 +19,3 @@ These files generate a random WSN and node structure that can be used for the pr
 DANSE_param.mat contains a sample structure that can be used to generate the network using network_gen.m
 node.mat contains a sample node structure
 
-Misc
-==============
-
-Other network generation tools 
-[https://github.com/Jogool/WSN-generation.git]
-
-Different wrappers are located here 
-[https://github.com/Jogool/Wrappers.git]
