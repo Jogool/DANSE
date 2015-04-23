@@ -14,7 +14,7 @@ function [total_conv] = batch_run()
 % Author: Joseph Szurley
 % Work address
 % email: joseph.szurley@esat.kuleuven.be
-% Aug. 2014; Last revision: 04-Dec-2014
+% Aug. 2014; Last revision: 23-Apr-2014
 
 %% hardcoded parameters
 % number of desired sources (also dimension of DANSE)
@@ -71,6 +71,7 @@ node_update = 1;
 cost_sum_DANSE = [];
 ii = 1;
 tot_diff = inf;
+% check if we have met either conidtion
 while ~or(lt(tot_diff,thresh),ge(ii,max_iter));
     [node] = DANSE(node,node_update);
     cost_sum_DANSE = [cost_sum_DANSE sum(cat(1,node.cost))];
@@ -93,6 +94,7 @@ node_update = updateorder(1);
 cost_sum_TDANSE = [];
 ii = 1;
 tot_diff = inf;
+% check if we have met either conidtion
 while ~or(lt(tot_diff,thresh),ge(ii,max_iter));
     [node] = TDANSE(node,node_update);
     cost_sum_TDANSE = [cost_sum_TDANSE sum(cat(1,node.cost))];
@@ -122,6 +124,7 @@ cost_sum_TIDANSE_fc = [];
 node_update = 1;
 ii = 1;
 tot_diff = inf;
+% check if we have met either conidtion
 while ~or(lt(tot_diff,thresh),ge(ii,max_iter));
     [node] = TIDANSE_fc(node,node_update);
     cost_sum_TIDANSE_fc = [cost_sum_TIDANSE_fc sum(cat(1,node.cost))];
@@ -150,6 +153,7 @@ node_update = 1;
 cost_sum_TIDANSE_tree = [];
 ii = 1;
 tot_diff = inf;
+% check if we have met either conidtion
 while ~or(lt(tot_diff,thresh),ge(ii,max_iter));
     [node] = TIDANSE_tree(node,node_update);
     cost_sum_TIDANSE_tree = [cost_sum_TIDANSE_tree sum(cat(1,node.cost))];
