@@ -70,17 +70,14 @@ reverseStr = '';
 node_update = 1;
 cost_sum_DANSE = [];
 ii = 1;
-while 1
+tot_diff = inf;
+while ~or(lt(tot_diff,thresh),ge(ii,max_iter));
     [node] = DANSE(node,node_update);
     cost_sum_DANSE = [cost_sum_DANSE sum(cat(1,node.cost))];
     tot_diff = norm(cat(1,node.cost_cent) - ...
         cellfun(@(x) x(end), {node.cost})');
-    
-    if or(lt(tot_diff,thresh),ge(ii,max_iter));
-        break
-    else
-        ii = ii + 1;  
-    end
+
+     ii = ii + 1;  
     node_update=rem(node_update,DANSE_param.nb_nodes)+1;    
     msg = sprintf('Iteration : %d', ii);
     fprintf([reverseStr, msg]);
@@ -95,17 +92,14 @@ disp('TDANSE')
 node_update = updateorder(1);
 cost_sum_TDANSE = [];
 ii = 1;
-while 1
+tot_diff = inf;
+while ~or(lt(tot_diff,thresh),ge(ii,max_iter));
     [node] = TDANSE(node,node_update);
     cost_sum_TDANSE = [cost_sum_TDANSE sum(cat(1,node.cost))];
     tot_diff = norm(cat(1,node.cost_cent) - ...
         cellfun(@(x) x(end), {node.cost})');
     
-    if or(lt(tot_diff,thresh),ge(ii,max_iter));
-        break
-    else
-        ii = ii + 1;
-    end
+    ii = ii + 1;
     node_update=updateorder(rem(ii,numel(updateorder))+1);
     msg = sprintf('Iteration : %d', ii);
     fprintf([reverseStr, msg]);
@@ -127,16 +121,14 @@ end
 cost_sum_TIDANSE_fc = [];
 node_update = 1;
 ii = 1;
-while 1
+tot_diff = inf;
+while ~or(lt(tot_diff,thresh),ge(ii,max_iter));
     [node] = TIDANSE_fc(node,node_update);
     cost_sum_TIDANSE_fc = [cost_sum_TIDANSE_fc sum(cat(1,node.cost))];
     tot_diff = norm(cat(1,node.cost_cent) - ...
         cellfun(@(x) x(end), {node.cost})');
-    if or(lt(tot_diff,thresh),ge(ii,max_iter));
-        break
-    else
-        ii = ii + 1;
-    end
+
+    ii = ii + 1;
     node_update=rem(node_update,DANSE_param.nb_nodes)+1;
     msg = sprintf('Iteration : %d', ii);
     fprintf([reverseStr, msg]);
@@ -157,17 +149,15 @@ end
 node_update = 1;
 cost_sum_TIDANSE_tree = [];
 ii = 1;
-while 1
+tot_diff = inf;
+while ~or(lt(tot_diff,thresh),ge(ii,max_iter));
     [node] = TIDANSE_tree(node,node_update);
     cost_sum_TIDANSE_tree = [cost_sum_TIDANSE_tree sum(cat(1,node.cost))];
     tot_diff = norm(cat(1,node.cost_cent) -  ...
         cellfun(@(x) x(end), {node.cost})');
     
-    if or(lt(tot_diff,thresh),ge(ii,max_iter))
-        break
-    else
-        ii = ii + 1;
-    end
+
+    ii = ii + 1;
     node_update=rem(node_update,DANSE_param.nb_nodes)+1;
     msg = sprintf('Iteration : %d', ii);
     fprintf([reverseStr, msg]);
