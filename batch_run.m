@@ -67,7 +67,7 @@ fprintf('\n')
 disp('DANSE')
 reverseStr = '';
 
-node_update = 1;
+node_update = updateorder(1);
 cost_sum_DANSE = [];
 ii = 1;
 tot_diff = inf;
@@ -78,7 +78,7 @@ while ~or(lt(tot_diff,thresh),ge(ii,max_iter));
     tot_diff = norm(cat(1,node.cost_cent) - ...
         cellfun(@(x) x(end), {node.cost})');
 
-     ii = ii + 1;  
+    ii = ii + 1;  
     node_update=rem(node_update,DANSE_param.nb_nodes)+1;    
     msg = sprintf('Iteration : %d', ii);
     fprintf([reverseStr, msg]);
@@ -121,7 +121,7 @@ for ii = 1:DANSE_param.nb_nodes
     node(ii).P =  node(ii).loc_filt_coeff / node(ii).gkq(1).coeff;
 end
 cost_sum_TIDANSE_fc = [];
-node_update = 1;
+node_update = updateorder(1);
 ii = 1;
 tot_diff = inf;
 % check if we have met either condition
@@ -149,7 +149,7 @@ for ii = 1:DANSE_param.nb_nodes
     node(ii).gkq(1).coeff = temp(1:DANSE_param.desired_sources,1:DANSE_param.desired_sources);
     node(ii).P =  node(ii).loc_filt_coeff / node(ii).gkq(1).coeff;
 end
-node_update = 1;
+node_update = updateorder(1);
 cost_sum_TIDANSE_tree = [];
 ii = 1;
 tot_diff = inf;
