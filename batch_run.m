@@ -14,14 +14,14 @@ function [total_conv] = batch_run()
 % Author: Joseph Szurley
 % Work address
 % email: joseph.szurley@esat.kuleuven.be
-% Aug. 2014; Last revision: 23-Apr-2014
+% Aug. 2014; Last revision: 29-Apr-2015
 
 %% hardcoded parameters
 % number of desired sources (also dimension of DANSE)
 DANSE_param.desired_sources = 2;  
 
 % number of nodes
-DANSE_param.nb_nodes = 10;       
+DANSE_param.nb_nodes = 15;       
 
 % number of sensors per node (assumed same across all nodes compression 
 %ratio of (DANSE_param.sensors+1)/DANSE_param.desired_sources)
@@ -48,6 +48,7 @@ if plot_on
     close all
     [node,source,noise,wnv] = network_gen(DANSE_param);
     [node,A,updateorder] = construct_tree(node);
+    load node
     plot_WSN(node,A,source,noise)
 else
     [node,~,~,~] = network_gen(DANSE_param);
@@ -84,7 +85,6 @@ while ~or(lt(tot_diff,thresh),ge(ii,max_iter));
     fprintf([reverseStr, msg]);
     reverseStr = repmat(sprintf('\b'), 1, length(msg));
 end
-
 node = org_node;
 % T-DANSE
 fprintf('\n')
@@ -107,7 +107,6 @@ while ~or(lt(tot_diff,thresh),ge(ii,max_iter));
     fprintf([reverseStr, msg]);
     reverseStr = repmat(sprintf('\b'), 1, length(msg));
 end
-
 node = org_node;
 % TI-DANSE
 fprintf('\n')
@@ -115,10 +114,9 @@ reverseStr = '';
 disp('TI-DANSE FC')
 node=org_node;
 for ii = 1:DANSE_param.nb_nodes
-    temp = [node(ii).gkq.coeff];
     [node(ii).gkq] = deal([]);
-    node(ii).gkq(1).coeff = temp(1:DANSE_param.desired_sources,1:DANSE_param.desired_sources);
-    node(ii).P =  node(ii).loc_filt_coeff / node(ii).gkq(1).coeff;
+    node(ii).gkq(1).coeff = zeros(DANSE_param.desired_sources,DANSE_param.desired_sources);
+    node(ii).P = node(ii).loc_filt_coeff;
 end
 cost_sum_TIDANSE_fc = [];
 node_update = updateorder(1);
@@ -137,17 +135,15 @@ while ~or(lt(tot_diff,thresh),ge(ii,max_iter));
     fprintf([reverseStr, msg]);
     reverseStr = repmat(sprintf('\b'), 1, length(msg));
 end
-
 node=org_node;
 % TI-DANSE tree
 fprintf('\n')
 reverseStr = '';
 disp('TI-DANSE T')
 for ii = 1:DANSE_param.nb_nodes
-    temp = [node(ii).gkq.coeff];
     [node(ii).gkq] = deal([]);
-    node(ii).gkq(1).coeff = temp(1:DANSE_param.desired_sources,1:DANSE_param.desired_sources);
-    node(ii).P =  node(ii).loc_filt_coeff / node(ii).gkq(1).coeff;
+    node(ii).gkq(1).coeff = zeros(DANSE_param.desired_sources,DANSE_param.desired_sources);
+    node(ii).P = node(ii).loc_filt_coeff;
 end
 node_update = updateorder(1);
 cost_sum_TIDANSE_tree = [];
@@ -160,14 +156,12 @@ while ~or(lt(tot_diff,thresh),ge(ii,max_iter));
     tot_diff = norm(cat(1,node.cost_cent) -  ...
         cellfun(@(x) x(end), {node.cost})');
     
-
     ii = ii + 1;
     node_update=rem(node_update,DANSE_param.nb_nodes)+1;
     msg = sprintf('Iteration : %d', ii);
     fprintf([reverseStr, msg]);
     reverseStr = repmat(sprintf('\b'), 1, length(msg));
 end
-
 if plot_on
     figure
     hold on

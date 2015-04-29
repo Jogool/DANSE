@@ -26,7 +26,7 @@ function [node,source,noise,white_noise_var] = network_gen(DANSE_param)
 % Author: Joseph Szurley
 % Work address
 % email: joseph.szurley@esat.kuleuven.be
-% October 2014; Last revision: 13-Oct-2014
+% October 2014; Last revision: 29-Apr-2015
 
 
 % hardcoded parameters
@@ -78,7 +78,7 @@ for ii = 1:DANSE_param.nb_nodes
     node(ii).loc_filt_coeff = -1+2*rand(node(ii).sensors,DANSE_param.desired_sources);
     idx = find(ii ~= 1:DANSE_param.nb_nodes);
     for jj = idx
-        node(ii).gkq(jj).coeff = -1+2*rand(DANSE_param.desired_sources,DANSE_param.desired_sources);
+        node(ii).gkq(jj).coeff = zeros(DANSE_param.desired_sources,DANSE_param.desired_sources);
     end 
 end
 
