@@ -48,7 +48,7 @@ if plot_on
     close all
     [node,source,noise,wnv] = network_gen(DANSE_param);
     [node,A,updateorder] = construct_tree(node);
-    load node
+    %load node
     plot_WSN(node,A,source,noise)
 else
     [node,~,~,~] = network_gen(DANSE_param);
