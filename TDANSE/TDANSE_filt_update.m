@@ -1,5 +1,4 @@
-function [node] = TDANSE_filt_update(node,ii)
-dim_DANSE = node(1).dimDANSE;
+function [node] = TDANSE_filt_update(node,ii,dim_DANSE)
 % using the tDANSE_seq, the root node is the node that always updates
 % therefore don't need df signals
 idx = node(ii).ff_rec;

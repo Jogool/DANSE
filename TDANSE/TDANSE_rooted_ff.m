@@ -1,8 +1,6 @@
-function [node] = TDANSE_rooted_ff(node,root)
+function [node] = TDANSE_rooted_ff(node,root,nb_nodes,dim_DANSE)
 % given a sink (root) node and pre-existing tree, find the data flow toward the
 % sink (root) node
-nb_nodes = size(node,2);
-dim_DANSE = node(1).dimDANSE;
 
 [node.ff_trans] = deal([]);   % node k transmits to this node during the ff (should always be a single node)
 [node.ff_rec] = deal([]);     % node k receives these signals during the ff
@@ -59,9 +57,10 @@ while lt(node_ff_update,nb_nodes-1) % can skip the root node, hence - 1
             z_x_seq = [node(nbrs_updated).ff_zx];
             z_n_seq = [node(nbrs_updated).ff_zn];
             
-            gkq_coeff = [node(ii).gkq(nbrs_updated).coeff];
-            gkq_coeff = mat2cell(gkq_coeff, size(gkq_coeff,1), dim_DANSE*ones(1,size(gkq_coeff,2)/dim_DANSE));
-            gkq_coeff = cat(1,gkq_coeff{:});
+            %gkq_coeff = [node(ii).gkq(nbrs_updated).coeff];
+            %gkq_coeff = mat2cell(gkq_coeff, size(gkq_coeff,1), dim_DANSE*ones(1,size(gkq_coeff,2)/dim_DANSE));
+            %gkq_coeff = cat(1,gkq_coeff{:});
+            gkq_coeff = cat(1,node(ii).gkq(nbrs_updated).coeff);
             
             % add local transmitted signals to node's ff signal
             node(ii).ff_zx = node(ii).loc_zx + (gkq_coeff'*z_x_seq')';

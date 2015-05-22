@@ -1,4 +1,4 @@
-function [node] = TDANSE(node,node_update)
+function [node] = TDANSE(node,node_update,nb_nodes,dim_DANSE)
 % The function performs the T-DANSE algorithm in a sequential fashion
 %
 % Syntax:  [node] = TDANSE(node,node_update)
@@ -24,17 +24,15 @@ function [node] = TDANSE(node,node_update)
 % email: joseph.szurley@esat.kuleuven.be
 % Aug. 2014; Last revision: 16-Sep-2014
 [node.cost] = deal(0);
-nb_nodes = size(node,2);
-dim_DANSE = node(1).dimDANSE;
+
 for ii = 1:nb_nodes
     node(ii).loc_zx = (node(ii).loc_filt_coeff'*node(ii).ss_clean')';
     node(ii).loc_zn = (node(ii).loc_filt_coeff'*node(ii).ss_noise')';
 end
 
-node = TDANSE_rooted_ff(node,node_update);
-node = TDANSE_rooted_df(node,node_update);
-node = TDANSE_filt_update(node,node_update);
-
+node = TDANSE_rooted_ff(node,node_update,nb_nodes,dim_DANSE);
+node = TDANSE_rooted_df(node,node_update,nb_nodes,dim_DANSE);
+node = TDANSE_filt_update(node,node_update,dim_DANSE);
 %  Calculate cost at each node
 for ii=1:nb_nodes
     idx = node(ii).ff_rec;

@@ -1,33 +1,25 @@
-function [node] = TIDANSE_tree(node,node_update)
-% The function performs the T-DANSE algorithm with internal compression,
-% essentially the same as DANSE_sum_ic
+function [node] = TIDANSE_tree(node,node_update,nb_nodes,dim_DANSE)
+% perform a single iteration of the TI-DANSE algorithm in a tree topology
 %
-% Syntax:  [node] = t_DANSE_seq(node,node_update)
+% Syntax:  [node] = TIDANSE_tree(node,node_update,nb_nodes,dim_DANSE)
 %
 % Inputs:
-%   node            -   node structure from network_gen_tree.m
-%   node_update     -   which node is updating during this iteration
+%   node            -   contains node information in structure format
+%   node_update     -   which node to update
+%   nb_nodes        -   number of nodes
+%   dim_DANSE       -   number of broadcast signals per node
 %
 % Outputs:
-%   node            -   node structure that contains the cost at each
-%                       iteration of the T-DANSE algorithm as well as the
-%                       optimal filters
-%
+%   node            -   contains node with updated filter and cost
+%                   
 % Example:
-%    [node] = t_DANSE_seq(node,n)
+%     [node] = TIDANSE_tree(node,node_update,nb_nodes,dim_DANSE)
 %
-% Other m-files required: none
-% Subfunctions: node
-% MAT-files required: none
-%
-% See also: network_gen_tree
+% Other m-files required: TIDANSE_filt_update
 
 % Author: Joseph Szurley
 % email: joseph.szurley@esat.kuleuven.be
-% Aug. 2014; Last  revision: 13-Oct-2014
-
-nb_nodes = size(node,2);
-dim_DANSE = node(1).dimDANSE;
+% October 2014; Last revision: 22-May-2015
 [node.cost] = deal(0);
 
 for ii = 1:nb_nodes
@@ -35,7 +27,8 @@ for ii = 1:nb_nodes
     node(ii).loc_zn = (node(ii).P'*node(ii).ss_noise')';
 end
 
-node = TIDANSE_rooted_ff(node,node_update);
+node = TIDANSE_rooted_ff(node,node_update,nb_nodes,dim_DANSE);
+
 %% Contstruct summed signal at root and flood signal through WSN
 idx = node(node_update).ff_rec;
 z_x_seq = [node(idx).ff_zx];
@@ -52,7 +45,7 @@ for ii = 1:nb_nodes
 end
 
 % update node-specific filter coefficients at updated node
-node = TIDANSE_filt_update(node,node_update);
+node = TIDANSE_filt_update(node,node_update,dim_DANSE);
 %%  Calculate cost at each node
 for ii=1:nb_nodes
     z_x_seq = node(ii).zx_sum - node(ii).loc_zx;
@@ -61,7 +54,7 @@ for ii=1:nb_nodes
     temp_filt = [node(ii).loc_filt_coeff' node(ii).gkq(1).coeff'];
     
     % cost at node during current iteration
-    node(ii).cost(1) = norm(node(ii).ss_clean(:,1:dim_DANSE)' - ...
+    node(ii).cost = norm(node(ii).ss_clean(:,1:dim_DANSE)' - ...
         temp_filt*([node(ii).ss_clean z_x_seq]+[node(ii).ss_noise z_n_seq])')^2;
 end
 

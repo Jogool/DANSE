@@ -1,8 +1,6 @@
-function [node] = rooted_ff(node,root)
+function [node] = TIDANSE_rooted_ff(node,root,nb_nodes,dim_DANSE)
 % given a sink (root) node and pre-existing tree, find the data flow toward the
 % sink (root) node
-nb_nodes = size(node,2);
-dim_DANSE = node(1).dimDANSE;
 
 [node.ff_trans] = deal([]);   % node k transmits to this node during the ff (should always be a single node)
 [node.ff_rec] = deal([]);     % node k receives these signals during the ff

@@ -1,5 +1,4 @@
-function [node] = TIDANSE_filt_update(node,ii)
-dim_DANSE = node(1).dimDANSE;
+function [node] = TIDANSE_filt_update(node,ii,dim_DANSE)
 
 z_x_seq = node(ii).zx_sum - node(ii).loc_zx;
 z_n_seq = node(ii).zn_sum - node(ii).loc_zn;

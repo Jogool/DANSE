@@ -1,4 +1,4 @@
-function [node] = centralized(node)
+function [node] = centralized(node,nb_desired_src)
 %centralized - Finds the centralized solution 
 %
 % The function first generates a set of nodes randomly placed in a sensing
@@ -6,7 +6,7 @@ function [node] = centralized(node)
 % until the network is connected.  Using this ad-hoc connectivity, a
 % minimum spanning tree is then found.
 %
-% Syntax:  [node] = centralized(node)
+% Syntax:  [node] = centralized(node,nb_desired_src)
 %
 % Inputs:
 %   node            -   node structure from network_gen_tree.m
@@ -16,7 +16,7 @@ function [node] = centralized(node)
 %                       cost at each node
 %
 % Example: 
-%    [node] = centralized(node)
+%    [node] = centralized(node,nb_desired_src)
 %
 % Other m-files required: none
 % Subfunctions: node
@@ -38,13 +38,12 @@ Rnn = n'*n;
 Rxx = x'*x;
 y = x + n;
 index = 1;
-dim_DANSE = node(1).dimDANSE;
 for ii = 1:size(node,2)
     %   calculate centralized filter
-    w_temp = (Rnn+Rxx) \ Rxx(:,index:index+dim_DANSE-1);
+    w_temp = (Rnn+Rxx) \ Rxx(:,index:index+nb_desired_src-1);
 
     %   calculate centralized cost
-    node(ii).cost_cent = norm(x(:,index:index+dim_DANSE-1)' - w_temp'*y')^2;
+    node(ii).cost_cent = norm(x(:,index:index+nb_desired_src-1)' - w_temp'*y')^2;
     %   store centralized local filter coefficents
     node(ii).local_filter_cent = w_temp(index:index+node(ii).sensors-1,:);
     node(ii).cent_filt = w_temp;
