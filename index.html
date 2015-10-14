@@ -93,6 +93,26 @@
 			  </ul>
 			
 <h3>
+			<a id="designer-templates" class="anchor" href="#designer-templates" aria-hidden="true"><span class="octicon octicon-link"></span></a>Batch mode</h3>
+			<p>This version of the code will run the DANSE and T-DANSE algorithms in a realistic environment and computes the filters in the frequency domain.  Running the code is accomplished in the same fashion by passing two arguments, the desired source signals and the noise source signal (sample signals are provided with two desired sources and 4 noise sources).  Add all folders in the path to the environment  </p>
+			
+<pre><code>>> addpath(genpath(pwd))
+>> batch_run(s,n)
+</code></pre>
+<p> which will generate a network of five nodes each with the number of desired sources + 1 sensor on each node.
+
+</p>			
+	          <ul>
+	            <li><strong>Files</strong></li>
+		      <ul>
+		          <li>BATCH_RUN - wrapper for batch mode simulations</li>
+				   <li>FRAME_SIGNAL - convert time domain signal to frequency domain blocks</li>
+				   <li> GEN_PARAM - generate simulation and DANSE parameters</li>
+		          <li>signals.mat - sample signals</li>
+		        </ul>
+				  </ul>
+				
+<h3>				
 			<a id="designer-templates" class="anchor" href="#designer-templates" aria-hidden="true"><span class="octicon octicon-link"></span></a>Clique based</h3>
 			<p>For mixed topologies there are small differences on the way cliques are formed (currently based on distance).  Therefore the network generation, tree formation and updating order have some exceptions when compared to TDANSE.  However, in the clique based code, the DANSE and TDANSE files are exactly the same as in the the DANSE code given previously.  Running the code is accomplished in the same fashion, i.e., </p>
 			
@@ -111,6 +131,7 @@ To run the single simulation that is presented in the mixed topology paper, unco
 				   <li>MTDANSE_rooted_df.m - Diffusion flow (data dissemination)</li>
 		          <li>MTDANSE_filt_update.m - Updates node-specific filter</li>
 		        </ul>
+				
 
 <!--<h3>
 <a id="rather-drive-stick" class="anchor" href="#rather-drive-stick" aria-hidden="true"><span class="octicon octicon-link"></span></a>Rather Drive Stick?</h3>
